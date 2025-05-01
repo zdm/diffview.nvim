@@ -31,7 +31,7 @@ Plug 'sindrets/diffview.nvim'
 
 ```lua
 -- Packer
-use "sindrets/diffview.nvim" 
+use "sindrets/diffview.nvim"
 ```
 
 ## Merge Tool
