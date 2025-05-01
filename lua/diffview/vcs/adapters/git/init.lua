@@ -25,6 +25,16 @@ local logger = DiffviewGlobal.logger
 local pl = lazy.access(utils, "path") ---@type PathLib
 local uv = vim.loop
 
+local function normalize_cygwin_path(path)
+  path = path and vim.trim(path)
+
+  if path and vim.fn.has('win32') == 1 and string.sub(path, 1, 1) == '/' then
+    path = string.gsub(string.sub(path, 2, 2) .. ':' .. string.sub(path, 3), '/', '\\')
+  end
+
+  return path
+end
+
 local M = {}
 
 ---@class GitAdapter : VCSAdapter
@@ -178,15 +188,7 @@ local function get_toplevel(path)
     return nil
   end
 
-  local path = out[1] and vim.trim(out[1])
-
-  if path then
-    if vim.fn.has('win32') == 1 and string.sub(path, 1, 1) == '/' then
-      path = string.gsub(string.sub(path, 2, 2) .. ':' .. string.sub(path, 3), '/', '\\')
-    end
-  end
-
-  return path
+  return normalize_cygwin_path(out[1])
 end
 
 ---Try to find the top-level of a working tree by using the given indicative
@@ -289,15 +291,7 @@ function GitAdapter:get_dir(path)
     return nil
   end
 
-  local path = out[1] and vim.trim(out[1])
-
-  if path then
-    if vim.fn.has('win32') == 1 and string.sub(path, 1, 1) == '/' then
-      path = string.gsub(string.sub(path, 2, 2) .. ':' .. string.sub(path, 3), '/', '\\')
-    end
-  end
-
-  return path
+  return normalize_cygwin_path(out[1])
 end
 
 ---Verify that a given git rev is valid.
