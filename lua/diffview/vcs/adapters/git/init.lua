@@ -177,7 +177,16 @@ local function get_toplevel(path)
   if code ~= 0 then
     return nil
   end
-  return out[1] and vim.trim(out[1])
+
+  local path = out[1] and vim.trim(out[1])
+
+  if path then
+    if vim.fn.has('win32') == 1 and string.sub(path, 1, 1) == '/' then
+      path = string.gsub(string.sub(path, 2, 2) .. ':' .. string.sub(path, 3), '/', '\\')
+    end
+  end
+
+  return path
 end
 
 ---Try to find the top-level of a working tree by using the given indicative
@@ -279,7 +288,16 @@ function GitAdapter:get_dir(path)
   if code ~= 0 then
     return nil
   end
-  return out[1] and vim.trim(out[1])
+
+  local path = out[1] and vim.trim(out[1])
+
+  if path then
+    if vim.fn.has('win32') == 1 and string.sub(path, 1, 1) == '/' then
+      path = string.gsub(string.sub(path, 2, 2) .. ':' .. string.sub(path, 3), '/', '\\')
+    end
+  end
+
+  return path
 end
 
 ---Verify that a given git rev is valid.
