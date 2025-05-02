@@ -25,11 +25,21 @@ local logger = DiffviewGlobal.logger
 local pl = lazy.access(utils, "path") ---@type PathLib
 local uv = vim.loop
 
+local has_cygpath
 local function normalize_cygwin_path(path)
   path = path and vim.trim(path)
 
   if path and vim.fn.has('win32') == 1 and string.sub(path, 1, 1) == '/' then
-    path = string.gsub(string.sub(path, 2, 2) .. ':' .. string.sub(path, 3), '/', '\\')
+    if has_cygpath == nil then
+      has_cygpath = vim.fn.executable('cygpath') == 1
+    end
+
+    if has_cygpath then
+      path = vim.fn.system({"cygpath", "--absolute", "--windows", path})
+
+      -- remove "\n"
+      path = string.sub(path, 1, #path -1)
+    end
   end
 
   return path
