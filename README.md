@@ -1,4 +1,4 @@
-# diffview.nvim
+# diffview\.nvim
 
 Fork of [sindrets/diffview.nvim](https://github.com/sindrets/diffview.nvim)
 
