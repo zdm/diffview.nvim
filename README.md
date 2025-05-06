@@ -1,6 +1,6 @@
 # diffview.nvim
 
-Fork of [lewis6991/gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim).
+Fork of [sindrets/diffview.nvim](https://github.com/sindrets/diffview.nvim)
 
 Patches:
 
