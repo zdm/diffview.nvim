@@ -12,5 +12,6 @@
         "type": "git",
         "url": "git+https://github.com/zdm/diffview.nvim.git"
     },
+    "license": "Proprietary Software",
     "author": "root <root@softvisio.net>"
 }
