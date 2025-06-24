@@ -1,14 +1,17 @@
 #!/usr/bin/env bash
 
-git fetch upstream || exit 1
+set -Eeuo pipefail
+trap 'echo -e "\n⚠  Warning: A command has failed. Line ($0:$LINENO): $(sed -n "${LINENO}p" "$0" 2> /dev/null || true)" >&2; return 3 2> /dev/null || exit 3' ERR
 
-git switch update-readme || exit 1
-git merge --no-edit upstream/main || exit 1
+git fetch upstream
 
-git switch feat-msys2-support || exit 1
-git merge --no-edit upstream/main || exit 1
+git switch update-readme
+git merge --no-edit upstream/main
 
-git switch main || exit 1
-git merge --no-edit update-readme feat-msys2-support || exit 1
+git switch feat-msys2-support
+git merge --no-edit upstream/main
 
-git push --all || exit 1
+git switch main
+git merge --no-edit update-readme feat-msys2-support
+
+git push --all
