@@ -12,6 +12,11 @@ git switch feat-msys2-support
 git merge --no-edit upstream/main
 
 git switch main
-git merge --no-edit update-readme feat-msys2-support
+git reset --hard $(git rev-list --max-parents=0 HEAD)
+git merge --no-edit upstream/main
 
-git push --all
+# git merge --no-edit update-readme feat-msys2-support
+git merge --no-edit update-readme
+git merge --no-edit feat-msys2-support
+
+git push --all --force
